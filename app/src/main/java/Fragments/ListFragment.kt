@@ -110,7 +110,7 @@ class ListFragment : Fragment() {
                     .get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
-                            listSport?.add(document.toObject(Sport::class.java)) as MutableList<Sport>
+                            listSport?.add(document.toObject(Sport::class.java))
                         }
                     }
             }
@@ -133,8 +133,7 @@ class ListFragment : Fragment() {
     }
 
     fun fillRecycler(){
-        val rootRef = FirebaseFirestore.getInstance()
-        val query = rootRef.collection("sports")
+        val query = db.collection("sports")
 
         val options = FirestoreRecyclerOptions.Builder<Sport>()
             .setQuery(query, Sport::class.java)
