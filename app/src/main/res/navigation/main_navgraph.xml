@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navgraph"
+    app:startDestination="@id/fragmentLogin">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="Fragments.ListFragment"
+        android:label="list_fragment"
+        tools:layout="@layout/list_fragment" >
+        <argument
+            android:name="actividad"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_listFragment_to_containerFragment"
+            app:destination="@id/containerFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_newItem"
+            app:destination="@id/newItem" />
+        <argument
+            android:name="flaglist"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_listFragment_to_fragmentSelect"
+            app:destination="@id/fragmentSelect" />
+        <action
+            android:id="@+id/action_listFragment_to_dialogFragment"
+            app:destination="@id/dialogFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="Fragments.FragmentLogin"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentSelect"
+            app:destination="@id/fragmentSelect" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_fragmentRegister"
+            app:destination="@id/fragmentRegister" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSelect"
+        android:name="Fragments.FragmentSelect"
+        android:label="fragment_select"
+        tools:layout="@layout/fragment_select" >
+        <action
+            android:id="@+id/action_fragmentSelect_to_listFragment"
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="sportToErase"
+            app:argType="Entities.Sport"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_fragmentSelect_to_mapsRunActivity"
+            app:destination="@id/mapsRunActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/containerFragment"
+        android:name="Fragments.ContainerFragment"
+        android:label="fragment_container"
+        tools:layout="@layout/fragment_container" />
+    <fragment
+        android:id="@+id/newItem"
+        android:name="Fragments.NewItem"
+        android:label="new_item_fragment"
+        tools:layout="@layout/new_item_fragment" >
+        <action
+            android:id="@+id/action_newItem_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentRegister"
+        android:name="Fragments.FragmentRegister"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_fragmentRegister_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/dialogFragment"
+        android:name="Fragments.DialogFragment"
+        android:label="DialogFragment" >
+        <argument
+            android:name="EraseQuestionSport"
+            app:argType="Entities.Sport"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_dialogFragment_to_fragmentSelect"
+            app:destination="@id/fragmentSelect" />
+    </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.utn.tp3.SettingsActivity"
+        android:label="SettingsActivity" />
+    <activity
+        android:id="@+id/mapsRunActivity"
+        android:name="com.utn.tp3.MapsRunActivity"
+        android:label="activity_maps_run"
+        tools:layout="@layout/activity_maps_run" />
+</navigation>

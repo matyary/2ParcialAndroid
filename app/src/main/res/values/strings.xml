@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">SPORTAPP</string>
+    <string name="hint_user">Ingrese usuario</string>
+    <string name="hint_pass">Ingrese contraseña</string>
+    <string name="hint_peso">Ingrese su peso (Kg)</string>
+    <string name="hint_altura">Ingrese su altura (Mts)</string>
+    <string name="hint_sport_nombre">Ingrese nombre</string>
+    <string name="hint_sport_descripcion">Ingrese descripción</string>
+    <string name="hint_sport_frecuencia">Ingrese frecuencia</string>
+    <string name="hint_sport_imagen">Ingrese url de imagen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textview">TextView</string>
+    <string name="title_activity_settings">Configuraciones</string>
+
+    <!-- Preference Titles -->
+    <string name="session_header">Configuración de Usuario</string>
+    <string name="datos_header">Información Adicional</string>
+    <string name="sound_header">Configuración de Sonido</string>
+
+    <!-- User Preferences -->
+    <string name="user_title">Nombre</string>
+    <string name="pass_title">Contraseña</string>
+    <string name="peso_title">Peso</string>
+    <string name="altura_title">Altura</string>
+    <string name="IMC_title">Indice Masa Corporal</string>
+
+    <!-- Sound Preferences -->
+    <string name="sound_title">Habilitar/Deshabilitar sonido</string>
+    <string name="music_title">Selección de música</string>
+    <string name="title_activity_maps_run">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
