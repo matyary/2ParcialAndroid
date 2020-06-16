@@ -40,6 +40,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1dHneSpak2g1MWd2uLsWuMSeWIY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -227,10 +230,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1306" height="176" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1592319483110" />
-    <state x="184" y="6" key="SettingsEditor" timestamp="1592319712287">
+    <state x="184" y="6" key="SettingsEditor" timestamp="1592321379377">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="184" y="6" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592319712287" />
+    <state x="184" y="6" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1592321379377" />
     <state x="499" y="142" key="chooseDestDirectoryDialog" timestamp="1592159599247">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
