@@ -13,6 +13,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
@@ -49,6 +50,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0-rc01'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -125,4 +127,11 @@ dependencies {
 
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:5.1.0'
+
+    //Authentication con Google.
+    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
+    //Storage Firebase.
+    implementation 'com.google.firebase:firebase-storage-ktx:19.1.1'
 }

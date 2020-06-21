@@ -1,9 +1,10 @@
 package Fragments
 
 import Entities.User
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,19 +12,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
-
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.utn.tp3.R
-import database.appDatabase
-import database.userDao
+import kotlinx.coroutines.*
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class FragmentLogin : Fragment() {
+
+    companion object {
+        private const val SIGN_IN_REQUEST_CODE = 91
+    }
+
+    // Access a Cloud Firestore instance from your Fragment/Activity
+    var db = FirebaseFirestore.getInstance()
 
     lateinit var view_flogin: View
     lateinit var user_flogin: EditText
@@ -32,10 +50,16 @@ class FragmentLogin : Fragment() {
     lateinit var btn_flogin_to_fselect: Button
     lateinit var checkbox: CheckBox
 
-    private var db: appDatabase? = null
-    private var userDao: userDao? = null
-    lateinit var  userList :MutableList<User>
+    lateinit var signInButton: SignInButton
+    private lateinit var auth: FirebaseAuth
+
     lateinit var userEnter: User
+
+    //Objeto usuario y sus campos a registrar...
+    lateinit var registerUser: User
+    lateinit var name: String
+    lateinit var email: String
+    lateinit var uid: String
 
     var flag_log_ok : Int =0
 
@@ -50,6 +74,13 @@ class FragmentLogin : Fragment() {
         // Inflate the layout for this fragment
         view_flogin = inflater.inflate(R.layout.fragment_login, container, false)
 
+        // Set the dimensions of the sign-in button.
+        signInButton = view_flogin.findViewById(R.id.sign_in_button)
+        signInButton.setSize(SignInButton.SIZE_STANDARD)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
         user_flogin = view_flogin.findViewById(R.id.editText_user_flogin)
         pass_flogin = view_flogin.findViewById(R.id.editText_pass_flogin)
         btn_new_user = view_flogin.findViewById(R.id.button_flogin)
@@ -63,8 +94,45 @@ class FragmentLogin : Fragment() {
         return view_flogin
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        if (requestCode == SIGN_IN_REQUEST_CODE) {
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+                // ...
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
+
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        checkAuth(currentUser)
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+
+        signInButton.setOnClickListener{
+            val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+            startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
+        }
 
         checkbox.isChecked = true
 
@@ -88,53 +156,93 @@ class FragmentLogin : Fragment() {
             }
         }
 
-        db = appDatabase.getAppDataBase(view_flogin.context)
-        userDao = db?.userDao()
-
         btn_new_user.setOnClickListener {
 
-            val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister()
+            val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
             view_flogin.findNavController().navigate(action)
 
         }
 
         btn_flogin_to_fselect.setOnClickListener {
-
             if ( user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
-
-                userList = userDao?.loadAllPersons() as MutableList<User>
-
-                for ( actualUser in userList){
-                    if( actualUser.getNombre() == user_flogin.text.toString() && actualUser.getClave() == pass_flogin.text.toString() ){
-                        if(checkbox.isChecked){
-                            userEnter = userDao?.loadPersonByName(user_flogin.text.toString())!!
-                            Log.d("peso", userEnter.weight.toString())
-                            Log.d("altura", userEnter.height.toString())
-                            Log.d("imc", userEnter.imc.toString())
-                            editor.putString("Usuario",user_flogin.text.toString())
-                            editor.putString("Contraseña",pass_flogin.text.toString())
-                            editor.putString("Peso", userEnter.weight.toString())
-                            editor.putString("Altura", userEnter.height.toString())
-                            editor.putString("IMC", userEnter.imc.toString())
-                            editor.apply()
+                db.collection("users")
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        for (document in documents) {
+                            if( document.toObject(User::class.java).getNombre() == user_flogin.text.toString() && document.toObject(User::class.java).getClave() == pass_flogin.text.toString() ){
+                                if(checkbox.isChecked) {
+                                    userEnter = document.toObject(User::class.java)
+                                    Log.d("peso", userEnter.weight.toString())
+                                    Log.d("altura", userEnter.height.toString())
+                                    Log.d("imc", userEnter.imc.toString())
+                                    editor.putString("Usuario", user_flogin.text.toString())
+                                    editor.putString("Contraseña", pass_flogin.text.toString())
+                                    editor.putString("Peso", userEnter.weight.toString())
+                                    editor.putString("Altura", userEnter.height.toString())
+                                    editor.putString("IMC", userEnter.imc.toString())
+                                    editor.apply()
+                                }
+                                val action2 = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
+                                view_flogin.findNavController().navigate(action2)
+                                flag_log_ok = 1
+                            }
                         }
-                        val action2 = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
-                        view_flogin.findNavController().navigate(action2)
-                        flag_log_ok = 1
                     }
-                }
                 if (flag_log_ok != 1) {
                     Snackbar.make(view_flogin, "Error de Inicio de Sesión", Snackbar.LENGTH_LONG).show()
                 }
                 flag_log_ok = 0
             }
-
             else {
                 Snackbar.make(view_flogin, "Datos incompletos", Snackbar.LENGTH_LONG).show()
             }
         }
     }
 
+    //Método para actualizar
+    fun checkAuth (cuenta: FirebaseUser?) {
+        if (cuenta == null) {
+            //Mostrar botón de iniciar sesión con Google.
+            signInButton.isVisible = true
+        }
+        else {
+            //Ocultar botón de iniciar sesión con Google.
+            signInButton.isVisible = false
+            cuenta?.let {
+                // Name, email address, and profile photo Url
+                name = cuenta.displayName!!
+                email = cuenta.email!!
+                // The user's ID, unique to the Firebase project. Do NOT use this value to
+                // authenticate with your backend server, if you have one. Use
+                // FirebaseUser.getToken() instead.
+                uid = cuenta.uid
+
+                registerUser = User(uid, name, "", email, 0, 0.0f, 0.0f, "")
+            }
+        }
+    }
+
+    //Método autenticación Firebase con usuario de Google.
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+                    val user = auth.currentUser
+                    checkAuth(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    // ...
+                    Snackbar.make(view_flogin, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                    checkAuth(null)
+                }
+            }
+    }
+
+    //Al ingresar a esta pantalla, comienza a reproducirse el sonido y se habilita la actionbar...
     override fun onResume() {
         super.onResume()
         mp.start()
@@ -142,6 +250,7 @@ class FragmentLogin : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
     }
 
+    //Al salir de la pantalla, se pone en pausa el sonido.
     override fun onStop() {
         super.onStop()
         mp.pause()

@@ -85,6 +85,11 @@
         <action
             android:id="@+id/action_fragmentRegister_to_fragmentLogin"
             app:destination="@id/fragmentLogin" />
+        <argument
+            android:name="newregisterUser"
+            app:argType="Entities.User"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/dialogFragment"

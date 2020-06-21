@@ -55,8 +55,6 @@ class MapsRunActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMar
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-
-
         map.setOnMarkerClickListener(this)
         map.uiSettings.isZoomControlsEnabled = true
 

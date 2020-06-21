@@ -42,13 +42,14 @@ class ListFragment : Fragment() {
 
     val args: ListFragmentArgs by navArgs()
 
-    private lateinit var linearLayoutManager: LinearLayoutManager
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         view_sport = inflater.inflate(R.layout.list_fragment, container, false)
 
         recSport = view_sport.findViewById(R.id.rec_sport)
+
+        recSport.setHasFixedSize(true)
+        recSport.layoutManager = LinearLayoutManager(context)
 
         mp = MediaPlayer.create(requireActivity(), R.raw.pumpit)
 
@@ -120,12 +121,6 @@ class ListFragment : Fragment() {
             listSport = ArrayList()
         }
 
-
-        recSport.setHasFixedSize(true)
-
-        linearLayoutManager = LinearLayoutManager(context)
-        recSport.layoutManager = linearLayoutManager
-
         fillRecycler()
 
         if (flagList == 1)
@@ -150,6 +145,7 @@ class ListFragment : Fragment() {
 
             override fun onBindViewHolder(holder: SportHolder, position: Int, model: Sport) {
                 holder.setName(model.nombre)
+                holder.setFrecuency(model.frecuencia)
                 holder.getCardLayout().setOnClickListener {
                     viewModelTab1.ItemClicked.value = listSport!![position]
                     val actiontab = ListFragmentDirections.actionListFragmentToContainerFragment()
