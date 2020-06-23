@@ -49,9 +49,11 @@ class FragmentRegister : Fragment() {
 
     // Access a Cloud Firestore instance from your Fragment/Activity
     var db = FirebaseFirestore.getInstance()
+    lateinit var newUser: User
 
     //Acceso al depósito de almacenamiento
     var storage = Firebase.storage("gs://sportapp-6e7c6.appspot.com")
+    private var photoUrl: String = ""
 
     val args: FragmentRegisterArgs by navArgs()
 
@@ -80,15 +82,14 @@ class FragmentRegister : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        //Imagen de perfil por default, alertando que el usuario no tiene foto.
         Picasso.get()
             .load("https://www.adl-logistica.org/wp-content/uploads/2019/07/imagen-perfil-sin-foto.png")
             .into(userPIC)
 
+        //Tareas...
         val parentJob = Job()
-        val handler = CoroutineExceptionHandler { _, throwable ->
-            Snackbar.make(view_register, "Error al cargar foto", Snackbar.LENGTH_LONG).show()
-        }
-        val scope = CoroutineScope(Dispatchers.Default + parentJob + handler )
+        val scope = CoroutineScope(Dispatchers.IO + parentJob )
         //Tarea en segundo plano
         scope.launch {
             toStorage()
@@ -96,28 +97,34 @@ class FragmentRegister : Fragment() {
             createUser()
         }
 
-        val newUser = args.newregisterUser!!
-        Log.d ("NOMBRE USER", newUser.name)
-        Log.d ("EMAIL USER", newUser.email)
+        //Datos de usuario a crear provenientes de la autenticación de Google.
+        newUser = args.newregisterUser!!
+        Log.d ("NOMBRE USER", newUser.nombre)
+        Log.d ("EMAIL USER", newUser.correo)
         Log.d ("UID USER", newUser.uid)
 
-        user_register.setText(newUser.name)
-        email_register.setText(newUser.email)
+        //Se autocompletan dos de los campos de creación de usuario.
+        user_register.setText(newUser.nombre)
+        email_register.setText(newUser.correo)
 
+        //OnClick de botón de creación de usuario.
         btn_new_user.setOnClickListener {
+            //Si todos los campos fueron completados e incluso la foto fue cargada...
             if ( user_register.text.toString() != "" && pass_register.text.toString() != "" &&
                 email_register.text.toString() != "" && peso_register.text.toString() != "" &&
-                altura_register.text.toString() != "") {
+                altura_register.text.toString() != "" && photoUrl != "") {
 
                 val IMC = (peso_register.text.toString().toInt()) / (altura_register.text.toString().toFloat()*altura_register.text.toString().toFloat())
 
                 newUser.imc = IMC
-                newUser.name = user_register.text.toString()
-                newUser.pass = pass_register.text.toString()
-                newUser.email = email_register.text.toString()
-                newUser.weight = peso_register.text.toString().toInt()
-                newUser.height = altura_register.text.toString().toFloat()
+                newUser.nombre = user_register.text.toString()
+                newUser.clave = pass_register.text.toString()
+                newUser.correo = email_register.text.toString()
+                newUser.peso = peso_register.text.toString().toInt()
+                newUser.altura = altura_register.text.toString().toFloat()
+
                 db.collection("users").document(newUser.uid).set(newUser)
+
                 val action = FragmentRegisterDirections.actionFragmentRegisterToFragmentLogin()
                 view_register.findNavController().navigate(action)
             }
@@ -126,6 +133,7 @@ class FragmentRegister : Fragment() {
             }
         }
 
+        //Si el permiso de uso de galería no fue aprobado...
         if(ContextCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
@@ -137,14 +145,14 @@ class FragmentRegister : Fragment() {
                     IMAGE_PERMISSION_REQUEST_CODE)
             }
         }
+        //Si por el contrario el permiso fue aprobado...
         else {
+            //OnClick de imagen de perfil de usuario.
             userPIC.setOnClickListener {
                 TedBottomPicker.with(requireActivity())
                     .setSelectedUri(selectedUri)
                     .setPeekHeight(10).show { uri ->
-
                         selectedUri = uri
-
                         requestManager
                             ?.load(uri)
                             ?.into(userPIC)
@@ -155,6 +163,20 @@ class FragmentRegister : Fragment() {
 
     //Tarea en segundo plano para subir a Firebase Storage la foto de perfil de usuario.
     suspend fun toStorage(){
+        if (selectedUri != null) {
+            // Points to the root reference
+            val storageRef = storage.reference
+
+            // Points to "profileSmartphone"
+            val photosRef = storageRef.child("profileSmartphone")
+
+            // Points to "profileSmartphone/XXX.jpg"
+            // Note that you can use variables to create child values
+            val fileName = "foto_" + newUser.uid + "_.jpg"
+            val fileRef = photosRef.child(fileName)
+
+            fileRef.putFile(selectedUri!!)
+        }
         Log.d("TEST:", "toStorage")
     }
 

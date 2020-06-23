@@ -4,7 +4,6 @@ import Entities.User
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,10 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.utn.tp3.R
-import kotlinx.coroutines.*
 
 
 /**
@@ -60,8 +56,6 @@ class FragmentLogin : Fragment() {
     lateinit var name: String
     lateinit var email: String
     lateinit var uid: String
-
-    var flag_log_ok : Int =0
 
     lateinit var mp: MediaPlayer
     lateinit var sound: ToggleButton
@@ -129,6 +123,7 @@ class FragmentLogin : Fragment() {
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
+        //OnClick de botón de inicio de sesión por Google.
         signInButton.setOnClickListener{
             val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
             startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
@@ -144,6 +139,7 @@ class FragmentLogin : Fragment() {
             pass_flogin.setText(pref.getString("Contraseña", "default"))
         }
 
+        //OnClick de botón de música/sonido.
         sound.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 // The toggle is enabled
@@ -156,42 +152,48 @@ class FragmentLogin : Fragment() {
             }
         }
 
+        //OnClick de botón de registro de nuevo usuario.
         btn_new_user.setOnClickListener {
-
             val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
             view_flogin.findNavController().navigate(action)
 
         }
 
+        //OnClick de botón de inicio de sesión en SportApp.
         btn_flogin_to_fselect.setOnClickListener {
+            //Si los campos de nombre de usuario y contraseña están completos...
             if ( user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
+                //... Se obtiene el contenido de "users" en base de datos de Firebase.
                 db.collection("users")
                     .get()
                     .addOnSuccessListener { documents ->
                         for (document in documents) {
-                            if( document.toObject(User::class.java).getNombre() == user_flogin.text.toString() && document.toObject(User::class.java).getClave() == pass_flogin.text.toString() ){
+                            //Si alguno de los usuarios ya instanciados en base de datos se corresponde con el
+                            //ingresado en los EditText...
+                            if( document.toObject(User::class.java).getName() == user_flogin.text.toString() &&
+                                document.toObject(User::class.java).getPass() == pass_flogin.text.toString() ){
+                                //Si está tildado el checkbox de recordar usuario y contraseña,
+                                //se guarda info de usuario en Settings.
                                 if(checkbox.isChecked) {
                                     userEnter = document.toObject(User::class.java)
-                                    Log.d("peso", userEnter.weight.toString())
-                                    Log.d("altura", userEnter.height.toString())
+                                    Log.d("peso", userEnter.peso.toString())
+                                    Log.d("altura", userEnter.altura.toString())
                                     Log.d("imc", userEnter.imc.toString())
                                     editor.putString("Usuario", user_flogin.text.toString())
                                     editor.putString("Contraseña", pass_flogin.text.toString())
-                                    editor.putString("Peso", userEnter.weight.toString())
-                                    editor.putString("Altura", userEnter.height.toString())
+                                    editor.putString("Peso", userEnter.peso.toString())
+                                    editor.putString("Altura", userEnter.altura.toString())
                                     editor.putString("IMC", userEnter.imc.toString())
                                     editor.apply()
                                 }
                                 val action2 = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
                                 view_flogin.findNavController().navigate(action2)
-                                flag_log_ok = 1
+                            }
+                            else {
+                                Snackbar.make(view_flogin, "Error de Inicio de Sesión", Snackbar.LENGTH_LONG).show()
                             }
                         }
                     }
-                if (flag_log_ok != 1) {
-                    Snackbar.make(view_flogin, "Error de Inicio de Sesión", Snackbar.LENGTH_LONG).show()
-                }
-                flag_log_ok = 0
             }
             else {
                 Snackbar.make(view_flogin, "Datos incompletos", Snackbar.LENGTH_LONG).show()
@@ -208,7 +210,7 @@ class FragmentLogin : Fragment() {
         else {
             //Ocultar botón de iniciar sesión con Google.
             signInButton.isVisible = false
-            cuenta?.let {
+            cuenta.let {
                 // Name, email address, and profile photo Url
                 name = cuenta.displayName!!
                 email = cuenta.email!!

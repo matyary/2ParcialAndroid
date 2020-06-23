@@ -2,38 +2,35 @@ package Entities
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 class User (uid : String?,
-            name : String?,
-            pass : String?,
-            email: String?,
-            weight: Int?,
-            height: Float?,
+            nombre : String?,
+            clave : String?,
+            correo: String?,
+            peso: Int?,
+            altura: Float?,
             imc: Float?,
-            photoUrl: String?):
+            foto: String?):
     Parcelable{
 
     var uid : String
-    var name : String
-    var pass : String
-    var email : String
-    var weight : Int
-    var height : Float
+    var nombre : String
+    var clave : String
+    var correo : String
+    var peso : Int
+    var altura : Float
     var imc : Float
-    var photoUrl : String
+    var foto : String
 
     init {
         this.uid = uid!!
-        this.name = name!!
-        this.pass = pass!!
-        this.email = email!!
-        this.weight = weight!!
-        this.height = height!!
+        this.nombre = nombre!!
+        this.clave = clave!!
+        this.correo = correo!!
+        this.peso = peso!!
+        this.altura = altura!!
         this.imc = imc!!
-        this.photoUrl = photoUrl!!
+        this.foto = foto!!
     }
 
     constructor() : this("","","","",0,0.0f,0.0f,"")
@@ -53,13 +50,13 @@ class User (uid : String?,
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(uid)
-        writeString(name)
-        writeString(pass)
-        writeString(email)
-        writeInt(weight)
-        writeFloat(height)
+        writeString(nombre)
+        writeString(clave)
+        writeString(correo)
+        writeInt(peso)
+        writeFloat(altura)
         writeFloat(imc)
-        writeString(photoUrl)
+        writeString(foto)
     }
 
     companion object {
@@ -70,11 +67,11 @@ class User (uid : String?,
         }
     }
 
-    fun getNombre() : String{
-        return (this.name)
+    fun getName() : String{
+        return (this.nombre)
     }
 
-    fun getClave() : String{
-        return (this.pass)
+    fun getPass() : String{
+        return (this.clave)
     }
 }
