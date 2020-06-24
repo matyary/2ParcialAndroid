@@ -112,7 +112,7 @@ class FragmentRegister : Fragment() {
             //Si todos los campos fueron completados e incluso la foto fue cargada...
             if ( user_register.text.toString() != "" && pass_register.text.toString() != "" &&
                 email_register.text.toString() != "" && peso_register.text.toString() != "" &&
-                altura_register.text.toString() != "" && photoUrl != "") {
+                altura_register.text.toString() != "" /*&& photoUrl != ""*/) {
 
                 val IMC = (peso_register.text.toString().toInt()) / (altura_register.text.toString().toFloat()*altura_register.text.toString().toFloat())
 

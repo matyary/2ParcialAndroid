@@ -21,6 +21,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 import com.utn.tp3.R
 
@@ -32,8 +33,8 @@ class ListFragment : Fragment() {
     // Access a Cloud Firestore instance from your Fragment/Activity
     var db = FirebaseFirestore.getInstance()
     private lateinit var adapter: FirestoreRecyclerAdapter<Sport, SportHolder>
+    lateinit var query: Query
 
-    private var listSport : MutableList<Sport>? = null
     private var selectedSport : Sport? = null
 
     private lateinit var viewModelTab1: FragmentTab1ViewModel
@@ -86,49 +87,18 @@ class ListFragment : Fragment() {
         when (actividad){
 
             1 ->{
-                db.collection("sports")
+                query = db.collection("sports")
                     .whereEqualTo("tipo", "AEROBICO")
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            listSport?.add(document.toObject(Sport::class.java))
-                        }
-                    }
             }
             2 ->{
-                db.collection("sports")
+                query = db.collection("sports")
                     .whereEqualTo("tipo", "MUSCULACION")
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            listSport?.add(document.toObject(Sport::class.java))
-                        }
-                    }
             }
             3 ->{
-                db.collection("sports")
+                query = db.collection("sports")
                     .whereEqualTo("tipo", "FLEXIBILIDAD")
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            listSport?.add(document.toObject(Sport::class.java))
-                        }
-                    }
             }
         }
-
-        if(listSport == null){
-            listSport = ArrayList()
-        }
-
-        fillRecycler()
-
-        if (flagList == 1)
-            recSport.adapter?.notifyDataSetChanged()
-    }
-
-    fun fillRecycler(){
-        val query = db.collection("sports")
 
         val options = FirestoreRecyclerOptions.Builder<Sport>()
             .setQuery(query, Sport::class.java)
@@ -147,14 +117,13 @@ class ListFragment : Fragment() {
                 holder.setName(model.nombre)
                 holder.setFrecuency(model.frecuencia)
                 holder.getCardLayout().setOnClickListener {
-                    viewModelTab1.ItemClicked.value = listSport!![position]
+                    viewModelTab1.ItemClicked.value = model
                     val actiontab = ListFragmentDirections.actionListFragmentToContainerFragment()
                     view_sport.findNavController().navigate(actiontab)
                 }
                 holder.getCardLayout().setOnLongClickListener {
                     holder.getCardLayout().setBackgroundColor(Color.MAGENTA)
-                    selectedSport = listSport!![position]
-                    //Log.d("posicion", selectedSport!!.nombre)
+                    selectedSport = model
                     Snackbar.make(view_sport, "Presione icono de borrado para eliminar ítem seleccionado", Snackbar.LENGTH_LONG).show()
                     return@setOnLongClickListener true
                 }
@@ -166,6 +135,9 @@ class ListFragment : Fragment() {
         }
         adapter.startListening()
         recSport.adapter = adapter
+
+        if (flagList == 1)
+            adapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -202,5 +174,3 @@ class ListFragment : Fragment() {
         mp.pause()
     }
 }
-
-
