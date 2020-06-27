@@ -53,7 +53,6 @@ class FragmentRegister : Fragment() {
 
     //Acceso al depósito de almacenamiento
     var storage = Firebase.storage("gs://sportapp-6e7c6.appspot.com")
-    private var photoUrl: String = ""
 
     val args: FragmentRegisterArgs by navArgs()
 
@@ -87,16 +86,6 @@ class FragmentRegister : Fragment() {
             .load("https://www.adl-logistica.org/wp-content/uploads/2019/07/imagen-perfil-sin-foto.png")
             .into(userPIC)
 
-        //Tareas...
-        val parentJob = Job()
-        val scope = CoroutineScope(Dispatchers.IO + parentJob )
-        //Tarea en segundo plano
-        scope.launch {
-            toStorage()
-            fromStorage()
-            createUser()
-        }
-
         //Datos de usuario a crear provenientes de la autenticación de Google.
         newUser = args.newregisterUser!!
         Log.d ("NOMBRE USER", newUser.nombre)
@@ -112,7 +101,7 @@ class FragmentRegister : Fragment() {
             //Si todos los campos fueron completados e incluso la foto fue cargada...
             if ( user_register.text.toString() != "" && pass_register.text.toString() != "" &&
                 email_register.text.toString() != "" && peso_register.text.toString() != "" &&
-                altura_register.text.toString() != "" /*&& photoUrl != ""*/) {
+                altura_register.text.toString() != "" && newUser.foto != "") {
 
                 val IMC = (peso_register.text.toString().toInt()) / (altura_register.text.toString().toFloat()*altura_register.text.toString().toFloat())
 
@@ -156,38 +145,50 @@ class FragmentRegister : Fragment() {
                         requestManager
                             ?.load(uri)
                             ?.into(userPIC)
+                        //Tareas...
+                        val parentJob = Job()
+                        val scope = CoroutineScope(Dispatchers.IO + parentJob )
+                        //Tarea en segundo plano
+                        scope.launch {
+                            photoStorage()
+                        }
                     }
             }
         }
     }
 
     //Tarea en segundo plano para subir a Firebase Storage la foto de perfil de usuario.
-    suspend fun toStorage(){
-        if (selectedUri != null) {
-            // Points to the root reference
-            val storageRef = storage.reference
+    suspend fun photoStorage(){
+        // Points to the root reference
+        val storageRef = storage.reference
 
-            // Points to "profileSmartphone"
-            val photosRef = storageRef.child("profileSmartphone")
+        // Points to "profileSmartphone"
+        val photosRef = storageRef.child("profileSmartphone")
 
-            // Points to "profileSmartphone/XXX.jpg"
-            // Note that you can use variables to create child values
-            val fileName = "foto_" + newUser.uid + "_.jpg"
-            val fileRef = photosRef.child(fileName)
+        // Points to "profileSmartphone/XXX.jpg"
+        // Note that you can use variables to create child values
+        val fileName = "foto_" + newUser.uid + "_.jpg"
+        val fileRef = photosRef.child(fileName)
 
-            fileRef.putFile(selectedUri!!)
+        val uploadTask = fileRef.putFile(selectedUri!!)
+
+        uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            fileRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                newUser.foto = task.result.toString()
+            } else {
+                // Handle failures
+                // ...
+            }
         }
-        Log.d("TEST:", "toStorage")
-    }
 
-    //Tarea de segundo plano para descargar foto de perfil de usuario en formato URL.
-    suspend fun fromStorage(){
-        Log.d("TEST:", "fromStorage")
-    }
-
-    //Tarea de segundo plano para cargar objeto usuario a la base de datos de Firebase.
-    suspend fun createUser(){
-        Log.d("TEST:", "createUser")
+        Log.d("TEST:", "photoStorage")
     }
 
     override fun onResume() {
