@@ -57,10 +57,6 @@ class FragmentLogin : Fragment() {
     lateinit var email: String
     lateinit var uid: String
 
-    lateinit var mp: MediaPlayer
-    lateinit var sound: ToggleButton
-    lateinit var txtMusic: TextView
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -80,10 +76,6 @@ class FragmentLogin : Fragment() {
         btn_new_user = view_flogin.findViewById(R.id.button_flogin)
         btn_flogin_to_fselect = view_flogin.findViewById(R.id.button_flogin_to_fselect)
         checkbox = view_flogin.findViewById(R.id.checkBox)
-
-        mp = MediaPlayer.create(requireActivity(), R.raw.rocky)
-        sound = view_flogin.findViewById(R.id.music)
-        txtMusic = view_flogin.findViewById(R.id.music_state)
 
         return view_flogin
     }
@@ -139,24 +131,10 @@ class FragmentLogin : Fragment() {
             pass_flogin.setText(pref.getString("Contraseña", "default"))
         }
 
-        //OnClick de botón de música/sonido.
-        sound.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // The toggle is enabled
-                mp.pause()
-                txtMusic.text = "OFF"
-            } else {
-                // The toggle is disabled
-                mp.start()
-                txtMusic.text = "ON"
-            }
-        }
-
         //OnClick de botón de registro de nuevo usuario.
         btn_new_user.setOnClickListener {
             val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
             view_flogin.findNavController().navigate(action)
-
         }
 
         //OnClick de botón de inicio de sesión en SportApp.
@@ -209,7 +187,7 @@ class FragmentLogin : Fragment() {
         }
         else {
             //Ocultar botón de iniciar sesión con Google.
-            signInButton.isVisible = false
+            //signInButton.isVisible = false
             cuenta.let {
                 // Name, email address, and profile photo Url
                 name = cuenta.displayName!!
@@ -244,18 +222,9 @@ class FragmentLogin : Fragment() {
             }
     }
 
-    //Al ingresar a esta pantalla, comienza a reproducirse el sonido y se habilita la actionbar...
+    //Al ingresar a esta pantalla, se habilita la actionbar...
     override fun onResume() {
         super.onResume()
-        mp.start()
-        txtMusic.text = "ON"
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-    }
-
-    //Al salir de la pantalla, se pone en pausa el sonido.
-    override fun onStop() {
-        super.onStop()
-        mp.pause()
-        txtMusic.text = "OFF"
     }
 }

@@ -3,8 +3,8 @@
     <string name="hint_user">Ingrese usuario</string>
     <string name="hint_pass">Ingrese contraseña</string>
     <string name="hint_email">Ingrese correo electrónico</string>
-    <string name="hint_peso">Ingrese su peso (Kg)</string>
-    <string name="hint_altura">Ingrese su altura (Mts)</string>
+    <string name="hint_peso">Ingrese su peso (kg)</string>
+    <string name="hint_altura">Ingrese su altura (mts)</string>
     <string name="hint_sport_nombre">Ingrese nombre</string>
     <string name="hint_sport_descripcion">Ingrese descripción</string>
     <string name="hint_sport_frecuencia">Ingrese frecuencia</string>
