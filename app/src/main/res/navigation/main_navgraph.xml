@@ -20,19 +20,15 @@
         <action
             android:id="@+id/action_listFragment_to_newItem"
             app:destination="@id/newItem" />
-        <argument
-            android:name="flaglist"
-            android:defaultValue="0"
-            app:argType="integer" />
         <action
             android:id="@+id/action_listFragment_to_fragmentSelect"
             app:destination="@id/fragmentSelect" />
         <action
-            android:id="@+id/action_listFragment_to_dialogFragment"
-            app:destination="@id/dialogFragment" />
-        <action
             android:id="@+id/action_listFragment_to_settingsActivity"
             app:destination="@id/settingsActivity" />
+        <action
+            android:id="@+id/action_listFragment_to_dialogFragmentErase"
+            app:destination="@id/dialogFragmentErase" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLogin"
@@ -54,11 +50,6 @@
         <action
             android:id="@+id/action_fragmentSelect_to_listFragment"
             app:destination="@id/listFragment" />
-        <argument
-            android:name="sportToErase"
-            app:argType="Entities.Sport"
-            app:nullable="true"
-            android:defaultValue="@null" />
         <action
             android:id="@+id/action_fragmentSelect_to_mapsRunActivity"
             app:destination="@id/mapsRunActivity" />
@@ -91,19 +82,6 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
-    <fragment
-        android:id="@+id/dialogFragment"
-        android:name="Fragments.DialogFragment"
-        android:label="DialogFragment" >
-        <argument
-            android:name="EraseQuestionSport"
-            app:argType="Entities.Sport"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <action
-            android:id="@+id/action_dialogFragment_to_fragmentSelect"
-            app:destination="@id/fragmentSelect" />
-    </fragment>
     <activity
         android:id="@+id/settingsActivity"
         android:name="com.utn.tp3.SettingsActivity"
@@ -113,4 +91,14 @@
         android:name="com.utn.tp3.MapsRunActivity"
         android:label="activity_maps_run"
         tools:layout="@layout/activity_maps_run" />
+    <dialog
+        android:id="@+id/dialogFragmentErase"
+        android:name="Dialogs.DialogFragmentErase"
+        android:label="DialogFragmentErase" >
+        <argument
+            android:name="sportToErase"
+            app:argType="Entities.Sport"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
 </navigation>

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/boton"
-        android:backgroundTint="#9964FF64"
+        android:backgroundTint="#6664FF64"
         android:text="CREAR USUARIO"
         android:textColor="#FFFFFF"
         android:textSize="24sp"

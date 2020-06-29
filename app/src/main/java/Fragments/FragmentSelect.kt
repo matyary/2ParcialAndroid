@@ -29,10 +29,6 @@ class FragmentSelect : Fragment() {
     lateinit var botonR: Button
     lateinit var view_fselect: View
 
-    private var flagSelect: Int=0
-
-    val args: FragmentSelectArgs by navArgs()
-
     private lateinit var viewModel: FragmentSelectViewModel
 
     // Access a Cloud Firestore instance from your Fragment/Activity
@@ -73,13 +69,6 @@ class FragmentSelect : Fragment() {
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         welcomeText.setText("Bienvenid@\t" + pref.getString("Usuario", "default")).toString()
 
-        if (args.sportToErase != null){
-            db.collection("sports").document(args.sportToErase!!.nombre)
-                .delete()
-            flagSelect = 1
-        }
-        else flagSelect = 0
-
         boton.setOnClickListener {
             if( (chk_aerobico.isChecked && chk_musculacion.isChecked && chk_flexibilidad.isChecked) ||
                 (chk_aerobico.isChecked && chk_musculacion.isChecked) ||
@@ -94,17 +83,17 @@ class FragmentSelect : Fragment() {
             }
 
             else if (chk_aerobico.isChecked){
-                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(1, flagSelect)
+                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(1)
                 view_fselect.findNavController().navigate(action)
             }
 
             else if (chk_musculacion.isChecked){
-                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(2, flagSelect)
+                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(2)
                 view_fselect.findNavController().navigate(action)
             }
 
             else if(chk_flexibilidad.isChecked){
-                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(3, flagSelect)
+                val action = FragmentSelectDirections.actionFragmentSelectToListFragment(3)
                 view_fselect.findNavController().navigate(action)
             }
 

@@ -82,7 +82,6 @@ class ListFragment : Fragment() {
         }
 
         val actividad = args.actividad
-        val flagList = args.flaglist
 
         when (actividad){
 
@@ -136,8 +135,7 @@ class ListFragment : Fragment() {
         adapter.startListening()
         recSport.adapter = adapter
 
-        if (flagList == 1)
-            adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -155,7 +153,7 @@ class ListFragment : Fragment() {
             }
 
             R.id.action_erase -> {
-                val action_toolbar_erase = ListFragmentDirections.actionListFragmentToDialogFragment(selectedSport)
+                val action_toolbar_erase = ListFragmentDirections.actionListFragmentToDialogFragmentErase(selectedSport)
                 view_sport.findNavController().navigate(action_toolbar_erase)
             }
 

@@ -13,30 +13,21 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="12" />
+                            <option name="x" value="24" />
+                            <option name="y" value="1300" />
                           </Point>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="dialogFragment">
+                  <entry key="dialogFragmentErase">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="261" />
-                            <option name="y" value="321" />
+                            <option name="x" value="-278" />
+                            <option name="y" value="1365" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_dialogFragment_to_fragmentSelect">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -93,8 +84,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="266" />
+                            <option name="x" value="472" />
+                            <option name="y" value="270" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -119,8 +110,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="735" />
+                            <option name="x" value="-312" />
+                            <option name="y" value="767" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -130,7 +121,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_listFragment_to_dialogFragment">
+                            <entry key="action_listFragment_to_dialogFragmentErase">
                               <value>
                                 <LayoutPositions />
                               </value>

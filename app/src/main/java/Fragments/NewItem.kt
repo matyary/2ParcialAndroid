@@ -65,7 +65,7 @@ class NewItem : Fragment() {
                 "MUSCULACION" -> typAct = 2
                 "FLEXIBILIDAD" -> typAct = 3
             }
-            val actionnew = NewItemDirections.actionNewItemToListFragment(typAct, 1)
+            val actionnew = NewItemDirections.actionNewItemToListFragment(typAct)
             view_new_item.findNavController().navigate(actionnew)
         }
 
