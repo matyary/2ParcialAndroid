@@ -36,6 +36,7 @@ class ListFragment : Fragment() {
     lateinit var query: Query
 
     private var selectedSport : Sport? = null
+    private var listToErase: MutableList<Sport>? = null
 
     private lateinit var viewModelTab1: FragmentTab1ViewModel
 
@@ -81,6 +82,11 @@ class ListFragment : Fragment() {
             mp.start()
         }
 
+        /*for (toErase in listToErase!!) {
+            db.collection("users").document(toErase.nombre)
+                .delete()
+        }*/
+
         val actividad = args.actividad
 
         when (actividad){
@@ -123,6 +129,7 @@ class ListFragment : Fragment() {
                 holder.getCardLayout().setOnLongClickListener {
                     holder.getCardLayout().setBackgroundColor(Color.MAGENTA)
                     selectedSport = model
+                    listToErase!!.add(selectedSport!!)
                     Snackbar.make(view_sport, "Presione icono de borrado para eliminar ítem seleccionado", Snackbar.LENGTH_LONG).show()
                     return@setOnLongClickListener true
                 }
