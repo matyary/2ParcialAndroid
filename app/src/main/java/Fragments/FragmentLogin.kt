@@ -3,7 +3,6 @@ package Fragments
 import Entities.User
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -168,13 +167,15 @@ class FragmentLogin : Fragment() {
                                 view_flogin.findNavController().navigate(action2)
                             }
                             else {
-                                Snackbar.make(view_flogin, "Error de Inicio de Sesión", Snackbar.LENGTH_LONG).show()
+                                val actionDialogFailed = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(1)
+                                view_flogin.findNavController().navigate(actionDialogFailed)
                             }
                         }
                     }
             }
             else {
-                Snackbar.make(view_flogin, "Datos incompletos", Snackbar.LENGTH_LONG).show()
+                val actionDialogFailed2 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(2)
+                view_flogin.findNavController().navigate(actionDialogFailed2)
             }
         }
     }

@@ -31,9 +31,9 @@ class DialogFragmentErase :  DialogFragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_dialog, container, false)
+        v = inflater.inflate(R.layout.fragment_dialog_erase, container, false)
 
-        btnAccept = v.findViewById(R.id.btn_acept_dialog)
+        btnAccept = v.findViewById(R.id.btn_aceptar_dialog)
         btnCancel = v.findViewById(R.id.btn_cancel_dialog)
         return v
     }

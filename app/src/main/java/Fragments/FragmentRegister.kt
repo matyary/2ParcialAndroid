@@ -5,6 +5,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -118,7 +119,8 @@ class FragmentRegister : Fragment() {
                 view_register.findNavController().navigate(action)
             }
             else{
-                Snackbar.make(view_register, "Datos incompletos", Snackbar.LENGTH_LONG).show()
+                val actionDialogFailed = FragmentRegisterDirections.actionFragmentRegisterToDialogFragmentRegisterFailed()
+                view_register.findNavController().navigate(actionDialogFailed)
             }
         }
 
@@ -189,6 +191,9 @@ class FragmentRegister : Fragment() {
         }
 
         Log.d("TEST:", "photoStorage")
+
+        val actionloading = FragmentRegisterDirections.actionFragmentRegisterToDialogFragmentUploadPic()
+        view_register.findNavController().navigate(actionloading)
     }
 
     override fun onResume() {

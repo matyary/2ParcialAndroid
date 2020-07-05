@@ -32,6 +32,42 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="dialogFragmentLoginFailed">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="362" />
+                            <option name="y" value="1930" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dialogFragmentRegisterFailed">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="823" />
+                            <option name="y" value="1453" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dialogFragmentUploadPic">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="798" />
+                            <option name="y" value="1094" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="fragmentLogin">
                     <value>
                       <LayoutPositions>
@@ -43,6 +79,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragmentLogin_to_dialogFragmentLoginFailed">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragmentLogin_to_fragmentRegister">
                               <value>
                                 <LayoutPositions />
@@ -69,6 +110,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragmentRegister_to_dialogFragmentRegisterFailed">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragmentRegister_to_fragmentLogin">
                               <value>
                                 <LayoutPositions />

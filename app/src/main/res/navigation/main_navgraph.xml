@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_fragmentLogin_to_fragmentRegister"
             app:destination="@id/fragmentRegister" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_dialogFragmentLoginFailed"
+            app:destination="@id/dialogFragmentLoginFailed" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSelect"
@@ -81,6 +84,12 @@
             app:argType="Entities.User"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_fragmentRegister_to_dialogFragmentRegisterFailed"
+            app:destination="@id/dialogFragmentRegisterFailed" />
+        <action
+            android:id="@+id/action_fragmentRegister_to_dialogFragmentUploadPic"
+            app:destination="@id/dialogFragmentUploadPic" />
     </fragment>
     <activity
         android:id="@+id/settingsActivity"
@@ -101,4 +110,20 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </dialog>
+    <dialog
+        android:id="@+id/dialogFragmentLoginFailed"
+        android:name="Dialogs.DialogFragmentLoginFailed"
+        android:label="DialogFragmentLoginFailed" >
+        <argument
+            android:name="errorType"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/dialogFragmentRegisterFailed"
+        android:name="Dialogs.DialogFragmentRegisterFailed"
+        android:label="DialogFragmentRegisterFailed" />
+    <dialog
+        android:id="@+id/dialogFragmentUploadPic"
+        android:name="Dialogs.DialogFragmentUploadPic"
+        android:label="DialogFragmentUploadPic" />
 </navigation>
