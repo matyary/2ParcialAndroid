@@ -26,7 +26,28 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="-278" />
-                            <option name="y" value="1365" />
+                            <option name="y" value="1385" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_dialogFragmentErase_to_listFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dialogFragmentEraseNot">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-185" />
+                            <option name="y" value="125" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -115,6 +136,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_fragmentRegister_to_dialogFragmentUploadPic">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragmentRegister_to_fragmentLogin">
                               <value>
                                 <LayoutPositions />
@@ -168,6 +194,11 @@
                               </value>
                             </entry>
                             <entry key="action_listFragment_to_dialogFragmentErase">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_listFragment_to_dialogFragmentEraseNot">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -232,6 +263,52 @@
                           <Point>
                             <option name="x" value="256" />
                             <option name="y" value="1082" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="mobile_navigation.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="nav_gallery">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="256" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="nav_home">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="nav_slideshow">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="368" />
                           </Point>
                         </option>
                       </LayoutPositions>

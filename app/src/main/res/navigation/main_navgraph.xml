@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_listFragment_to_dialogFragmentErase"
             app:destination="@id/dialogFragmentErase" />
+        <action
+            android:id="@+id/action_listFragment_to_dialogFragmentEraseNot"
+            app:destination="@id/dialogFragmentEraseNot" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLogin"
@@ -126,4 +129,8 @@
         android:id="@+id/dialogFragmentUploadPic"
         android:name="Dialogs.DialogFragmentUploadPic"
         android:label="DialogFragmentUploadPic" />
+    <dialog
+        android:id="@+id/dialogFragmentEraseNot"
+        android:name="Dialogs.DialogFragmentEraseNot"
+        android:label="DialogFragmentEraseNot" />
 </navigation>

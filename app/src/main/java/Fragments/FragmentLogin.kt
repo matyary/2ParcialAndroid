@@ -114,21 +114,26 @@ class FragmentLogin : Fragment() {
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
+        //Usuario y contraseña preguardados.
+        checkbox.isChecked = true
+        //Configuración Settings...
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor = pref.edit()
+        //Si hay preferencias de usuario guardadas, autocompletar editText...
+        if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default")!= "default"){
+            user_flogin.setText(pref.getString("Usuario", "default"))
+            pass_flogin.setText(pref.getString("Contraseña", "default"))
+        }
+
+
+
         //OnClick de botón de inicio de sesión por Google.
         signInButton.setOnClickListener{
             val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
             startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
         }
 
-        checkbox.isChecked = true
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val editor = pref.edit()
-
-        if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default")!= "default"){
-            user_flogin.setText(pref.getString("Usuario", "default"))
-            pass_flogin.setText(pref.getString("Contraseña", "default"))
-        }
 
         //OnClick de botón de registro de nuevo usuario.
         btn_new_user.setOnClickListener {

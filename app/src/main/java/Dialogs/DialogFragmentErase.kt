@@ -53,10 +53,9 @@ class DialogFragmentErase :  DialogFragment() {
         }
 
         btnAccept.setOnClickListener {
-            if (args.sportToErase != null) {
-                db.collection("sports").document(args.sportToErase!!.nombre)
-                    .delete()
-            }
+            db.collection("sports").document(args.sportToErase!!.nombre)
+                .delete()
+            dismiss()
         }
     }
 }

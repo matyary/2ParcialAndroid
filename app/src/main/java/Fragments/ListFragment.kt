@@ -1,6 +1,7 @@
 package Fragments
 
 import Entities.Sport
+import Entities.User
 import Holders.SportHolder
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -36,7 +37,6 @@ class ListFragment : Fragment() {
     lateinit var query: Query
 
     private var selectedSport : Sport? = null
-    private var listToErase: MutableList<Sport>? = null
 
     private lateinit var viewModelTab1: FragmentTab1ViewModel
 
@@ -82,11 +82,6 @@ class ListFragment : Fragment() {
             mp.start()
         }
 
-        /*for (toErase in listToErase!!) {
-            db.collection("users").document(toErase.nombre)
-                .delete()
-        }*/
-
         val actividad = args.actividad
 
         when (actividad){
@@ -129,7 +124,6 @@ class ListFragment : Fragment() {
                 holder.getCardLayout().setOnLongClickListener {
                     holder.getCardLayout().setBackgroundColor(Color.MAGENTA)
                     selectedSport = model
-                    listToErase!!.add(selectedSport!!)
                     Snackbar.make(view_sport, "Presione icono de borrado para eliminar ítem seleccionado", Snackbar.LENGTH_LONG).show()
                     return@setOnLongClickListener true
                 }
@@ -160,8 +154,14 @@ class ListFragment : Fragment() {
             }
 
             R.id.action_erase -> {
-                val action_toolbar_erase = ListFragmentDirections.actionListFragmentToDialogFragmentErase(selectedSport)
-                view_sport.findNavController().navigate(action_toolbar_erase)
+                if (selectedSport != null) {
+                    val action_toolbar_erase = ListFragmentDirections.actionListFragmentToDialogFragmentErase(selectedSport)
+                    view_sport.findNavController().navigate(action_toolbar_erase)
+                }
+                else {
+                    val action_toolbar_erase_not = ListFragmentDirections.actionListFragmentToDialogFragmentEraseNot()
+                    view_sport.findNavController().navigate(action_toolbar_erase_not)
+                }
             }
 
             R.id.action_settings -> {
