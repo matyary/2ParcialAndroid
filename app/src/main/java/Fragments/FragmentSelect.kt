@@ -79,7 +79,9 @@ class FragmentSelect : Fragment() {
                 chk_musculacion.isChecked = false
                 chk_flexibilidad.isChecked = false
 
-                Snackbar.make(view_fselect, "Seleccionar solo una actividad", Snackbar.LENGTH_LONG).show()
+                val action2 = FragmentSelectDirections.actionFragmentSelectToDialogFragmentSelectAdv(2)
+                view_fselect.findNavController().navigate(action2)
+                //Snackbar.make(view_fselect, "Seleccionar solo una actividad", Snackbar.LENGTH_LONG).show()
             }
 
             else if (chk_aerobico.isChecked){
@@ -98,7 +100,9 @@ class FragmentSelect : Fragment() {
             }
 
             else {
-                Snackbar.make(view_fselect, "Seleccion una actividad para continuar", Snackbar.LENGTH_LONG).show()
+                val action1 = FragmentSelectDirections.actionFragmentSelectToDialogFragmentSelectAdv(1)
+                view_fselect.findNavController().navigate(action1)
+                //Snackbar.make(view_fselect, "Seleccion una actividad para continuar", Snackbar.LENGTH_LONG).show()
             }
         }
 

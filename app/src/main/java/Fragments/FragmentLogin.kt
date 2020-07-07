@@ -133,8 +133,6 @@ class FragmentLogin : Fragment() {
             startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
         }
 
-
-
         //OnClick de botón de registro de nuevo usuario.
         btn_new_user.setOnClickListener {
             val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)

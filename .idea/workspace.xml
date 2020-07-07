@@ -23,18 +23,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Dialogs/DialogFragmentErase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Dialogs/DialogFragmentErase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Fragments/FragmentLogin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Fragments/FragmentLogin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/Fragments/FragmentSelect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Fragments/FragmentSelect.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/Fragments/ListFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/Fragments/ListFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/add.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/main_toolbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/main_toolbar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/main_navgraph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/main_navgraph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +88,12 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\drawable-xxhdpi" />
+      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\raw" />
+      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\drawable-xxxhdpi" />
+      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApp\app\src" />
+    </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="Dialogs" />
       <recent name="Fragments" />
@@ -95,11 +102,6 @@
       <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\layout" />
       <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\menu" />
       <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApp\app" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\raw" />
-      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApplication\app\src\main\res\drawable-xxxhdpi" />
-      <recent name="C:\Users\matia\Documents\ProyectosAndroid\SportApp\app\src" />
     </key>
   </component>
   <component name="RunManager">
@@ -252,30 +254,30 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="363" y="99" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.728@0.0.1366.728" timestamp="1592612620535" />
-    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1593966513414">
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594082700024">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1593966513414" />
+    <state x="413" y="111" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1366.728@0.0.1366.728" timestamp="1594082700024" />
     <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1593966663737">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1593966663737" />
-    <state width="1306" height="173" key="GridCell.Tab.0.bottom" timestamp="1593994415345">
+    <state width="1306" height="173" key="GridCell.Tab.0.bottom" timestamp="1594084680314">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1306" height="173" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1593994415345" />
-    <state width="1306" height="173" key="GridCell.Tab.0.center" timestamp="1593994415345">
+    <state width="1306" height="173" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1594084680314" />
+    <state width="1306" height="173" key="GridCell.Tab.0.center" timestamp="1594084680314">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1306" height="173" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1593994415345" />
-    <state width="1306" height="173" key="GridCell.Tab.0.left" timestamp="1593994415345">
+    <state width="1306" height="173" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1594084680314" />
+    <state width="1306" height="173" key="GridCell.Tab.0.left" timestamp="1594084680314">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1306" height="173" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1593994415345" />
-    <state width="1306" height="173" key="GridCell.Tab.0.right" timestamp="1593994415345">
+    <state width="1306" height="173" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1594084680314" />
+    <state width="1306" height="173" key="GridCell.Tab.0.right" timestamp="1594084680314">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1306" height="173" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1593994415345" />
+    <state width="1306" height="173" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1594084680314" />
     <state x="184" y="6" key="SettingsEditor" timestamp="1592615465947">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -288,10 +290,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="92" y="92" width="1182" height="544" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1366.728@0.0.1366.728" timestamp="1592616931667" />
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1593875664740">
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1594045903092">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1593875664740" />
+    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1594045903092" />
     <state x="339" y="162" key="run.anything.popup" timestamp="1593217148355">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

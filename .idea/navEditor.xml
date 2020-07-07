@@ -29,15 +29,6 @@
                             <option name="y" value="1385" />
                           </Point>
                         </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_dialogFragmentErase_to_listFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -72,6 +63,30 @@
                           <Point>
                             <option name="x" value="823" />
                             <option name="y" value="1453" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dialogFragmentSelectAdv">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="804" />
+                            <option name="y" value="652" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="dialogFragmentSignout">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="104" />
+                            <option name="y" value="84" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -162,6 +177,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_fragmentSelect_to_dialogFragmentSelectAdv">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fragmentSelect_to_listFragment">
                               <value>
                                 <LayoutPositions />

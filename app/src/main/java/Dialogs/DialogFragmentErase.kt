@@ -11,6 +11,7 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.github.nikartm.button.FitButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.utn.tp3.R
 
@@ -23,6 +24,8 @@ class DialogFragmentErase :  DialogFragment() {
 
     // Access a Cloud Firestore instance from your Fragment/Activity
     var db = FirebaseFirestore.getInstance()
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     val args: DialogFragmentEraseArgs by navArgs()
 
@@ -53,8 +56,7 @@ class DialogFragmentErase :  DialogFragment() {
         }
 
         btnAccept.setOnClickListener {
-            db.collection("sports").document(args.sportToErase!!.nombre)
-                .delete()
+            auth.signOut()
             dismiss()
         }
     }

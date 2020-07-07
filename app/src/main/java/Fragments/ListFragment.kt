@@ -21,6 +21,7 @@ import androidx.preference.PreferenceManager
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
@@ -162,6 +163,11 @@ class ListFragment : Fragment() {
                     val action_toolbar_erase_not = ListFragmentDirections.actionListFragmentToDialogFragmentEraseNot()
                     view_sport.findNavController().navigate(action_toolbar_erase_not)
                 }
+            }
+
+            R.id.action_signout -> {
+                val action_toolbar_signout = ListFragmentDirections.actionListFragmentToDialogFragmentSignout()
+                view_sport.findNavController().navigate(action_toolbar_signout)
             }
 
             R.id.action_settings -> {

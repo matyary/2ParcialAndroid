@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_listFragment_to_dialogFragmentEraseNot"
             app:destination="@id/dialogFragmentEraseNot" />
+        <action
+            android:id="@+id/action_listFragment_to_dialogFragmentSignout"
+            app:destination="@id/dialogFragmentSignout" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLogin"
@@ -59,6 +62,9 @@
         <action
             android:id="@+id/action_fragmentSelect_to_mapsRunActivity"
             app:destination="@id/mapsRunActivity" />
+        <action
+            android:id="@+id/action_fragmentSelect_to_dialogFragmentSelectAdv"
+            app:destination="@id/dialogFragmentSelectAdv" />
     </fragment>
     <fragment
         android:id="@+id/containerFragment"
@@ -133,4 +139,16 @@
         android:id="@+id/dialogFragmentEraseNot"
         android:name="Dialogs.DialogFragmentEraseNot"
         android:label="DialogFragmentEraseNot" />
+    <dialog
+        android:id="@+id/dialogFragmentSelectAdv"
+        android:name="Dialogs.DialogFragmentSelectAdv"
+        android:label="DialogFragmentSelectAdv" >
+        <argument
+            android:name="selectType"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/dialogFragmentSignout"
+        android:name="Dialogs.DialogFragmentSignout"
+        android:label="DialogFragmentSignout" />
 </navigation>

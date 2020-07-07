@@ -5,14 +5,20 @@
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/add"
-        android:title="add"
-        app:showAsAction="ifRoom" />
+        android:title="AGREGAR ÍTEM"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_erase"
         android:icon="@drawable/erase"
-        android:title="erase"
-        app:showAsAction="ifRoom" />
+        android:title="BORRAR ÍTEM"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_signout"
+        android:icon="@drawable/signout"
+        android:title="signout"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_settings"
