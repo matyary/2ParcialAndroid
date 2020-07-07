@@ -49,8 +49,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="362" />
-                            <option name="y" value="1930" />
+                            <option name="x" value="246" />
+                            <option name="y" value="1969" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -85,8 +85,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="104" />
-                            <option name="y" value="84" />
+                            <option name="x" value="734" />
+                            <option name="y" value="1888" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -202,8 +202,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-312" />
-                            <option name="y" value="767" />
+                            <option name="x" value="-414" />
+                            <option name="y" value="800" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -219,6 +219,11 @@
                               </value>
                             </entry>
                             <entry key="action_listFragment_to_dialogFragmentEraseNot">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_listFragment_to_fragmentLogin">
                               <value>
                                 <LayoutPositions />
                               </value>

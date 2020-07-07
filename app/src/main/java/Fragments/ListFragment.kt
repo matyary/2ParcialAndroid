@@ -37,6 +37,9 @@ class ListFragment : Fragment() {
     private lateinit var adapter: FirestoreRecyclerAdapter<Sport, SportHolder>
     lateinit var query: Query
 
+    // Initialize Firebase Auth
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
     private var selectedSport : Sport? = null
 
     private lateinit var viewModelTab1: FragmentTab1ViewModel
@@ -166,7 +169,7 @@ class ListFragment : Fragment() {
             }
 
             R.id.action_signout -> {
-                val action_toolbar_signout = ListFragmentDirections.actionListFragmentToDialogFragmentSignout()
+                val action_toolbar_signout = ListFragmentDirections.actionListFragmentToFragmentLogin(1)
                 view_sport.findNavController().navigate(action_toolbar_signout)
             }
 

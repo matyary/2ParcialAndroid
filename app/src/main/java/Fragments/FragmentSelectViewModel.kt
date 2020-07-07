@@ -10,7 +10,7 @@ class FragmentSelectViewModel : ViewModel() {
     fun sportList ()
     {
         sports.add(Sport("BURPEES",
-            "Trabajas fuerza, resistencia y capacidad aeróbica a través de 4 movimientos sencillos\n" +
+            "Se trabaja fuerza, resistencia y capacidad aeróbica a través de cuatro movimientos sencillos:\n\n" +
                     "1. Cuclillas con manos en el suelo y cabeza erguida.\n" +
                     "2. En un movimiento rápido dirige ambas piernas hacia atrás y queda en posición de plancha.\n" +
                     "3. Haz una flexión (o lagartija) y regresa a la posición de plancha.\n" +
@@ -19,7 +19,7 @@ class FragmentSelectViewModel : ViewModel() {
             "https://www.sportlife.es/media/cache/big/upload/images/article/5b3f1200a3fea541e6dfe4e2/5c51c3b10ce69424548b4856-burpees-tecnica-perfecta.jpg",
             "AEROBICO"))
         sports.add(Sport("JUMPING JACKS",
-            "Con este ejercicio mejoras agilidad y coordinación en brazos y piernas.\n" +
+            "Con este ejercicio se mejora agilidad y coordinación en brazos y piernas.\n\n" +
                     "En la posición de inicio abre las piernas a la anchura de los hombros. Junta las piernas con un " +
                     "leve salto, mientras levantas los brazos a la vez para que ambas manos toquen detrás de la cabeza. " +
                     "La cabeza va recta y la vista al frente.",
@@ -37,7 +37,7 @@ class FragmentSelectViewModel : ViewModel() {
         sports.add(Sport("SKATER EXERCISE",
             "Se le conoce también como salto alterno de piernas o skater exercise por su nombre en inglés. Con este movimiento cardio" +
                     "trabajas cuadriceps, gemelos, glúteos y zona media del cuerpo.\n" +
-                    "Para comenzar este ejercicio colócate de pie con las piernas ligeramente separadas y las rodillas flexionadas, torso" +
+                    "Para comenzar este ejercicio colócate de pie con las piernas ligeramente separadas y las rodillas flexionadas, torso \t" +
                     "levemente inclinado hacia adelante pero con la espalda recta.\n" +
                     "Comienza el movimiento saltando hacia el lado izquierdo. Aterriza siempre con la rodilla flexionada, pasa la pierna" +
                     "derecha por atrás, colocando el pie por atrás de la pierna de apoyo.\n" +
@@ -50,30 +50,34 @@ class FragmentSelectViewModel : ViewModel() {
             "Se ejecuta como si estuvieras trotando, pero elevando las rodillas hasta la altura del pecho. Este ejercicio es" +
                     "de una gran eficacia para perder peso, además de que es muy sencillo de realizar.\n" +
                     "Para hacer tus elevaciones de rodilla correctamente coloca los pies a lo ancho de tus caderas y con los brazos cerca del" +
-                    "cuerpo. Levanta la rodilla izquierda hacia el pecho, exhalando y contrayendo los abdominales. Al mismo tiempo, dobla los" +
+                    "cuerpo. Levanta la rodilla izquierda hacia el pecho, exhalando y contrayendo los abdominales. Al mismo tiempo, dobla los \t" +
                     "codos y lleva los puños delante de los hombros. Vuelve a la posición inicial y repite con la pierna contraria.",
             "3 series de 20.",
             "https://pasionrunner.com/wp-content/uploads/2019/06/Ejercicio-9.jpg",
             "AEROBICO"))
         sports.add(Sport("SEAL JUMPS",
-            "Parecido a Jumping Jacks, pero esta vez realizamos un aplauso al llevar las manos hacia el centro.",
+            "Parecido a Jumping Jacks. \n\n\n"+
+            "Con la única diferencia que para este ejercicio se realiza un aplauso.\n\n"+
+            "El apluaso se realiza al llevar las manos hacia el centro.",
             "3 series de 20.",
             "https://fitnessbit.net/wp-content/uploads/2018/03/Seal-Jacks.jpg",
             "AEROBICO"))
         sports.add(Sport("ALTERNING FAST FEET",
-            "Realizamos pequeños saltos de manera muy rápida (o lo más rápido posible queriendo mantener el ejercicio" +
-                    "por un período de tiempo más prolongado) alternando los pies.",
+            "Se realizan pequeños saltos de manera muy rápida.\n\n"+
+            "Es decir, lo más rápido posible intentando mantener la postura qu propone el ejercicio" +
+            "por un período de tiempo prolongado, alternando los pies.",
             "3 series de 20.",
             "https://virallifee.com/wp-content/uploads/2019/06/Fast-Feet.jpg",
             "AEROBICO"))
         sports.add(Sport("TURKISH GET UP",
-            "Es un ejercicio que suele realizarse con mancuerna, aunque tranquilamente lo pueden hacer con cualquier" +
-                    "otro elemento, o incluso sin peso en caso de que nunca lo hayan hecho.",
+            "Es un ejercicio que suele realizarse con mancuerna.\n\n" +
+            "Aunque tranquilamente puede realizarse con cualquier otro elemento," +
+            "o incluso sin peso en caso de que nunca lo hayan hecho.",
             "3 series de 15.",
             "https://elrincondelsano.com/wp-content/uploads/2016/06/turkish-get-up.jpg",
             "AEROBICO"))
         sports.add(Sport("SPRINT",
-            "El sprint (o carrera) es un ejercicio en el que se descarga una cantidad de energía muy grande de forma muy" +
+            "El sprint (o carrera) es un ejercicio en el que se descarga una cantidad de energía muy grande de forma muy \t" +
                     "rápida, es importante hacerlo con un calzado adecuado y en una superficie que nos permita pisar correctamente," +
                     "recuerda hacerlo intensamente durante toda su duración.",
             "3 series de 20 segundos.",
@@ -167,20 +171,22 @@ class FragmentSelectViewModel : ViewModel() {
             "https://www.foroatletismo.com/imagenes/2013/07/Rutina-estiramientos-isquiotibiales.jpg",
             "FLEXIBILIDAD"))
         sports.add(Sport("MUSLOS Y CADERA",
-            "Tumbado boca abajo. Flexiona una pierna y coge el pie con la mano del mismo lado. Tira de ella todo lo que puedas sin que el" +
+            "Tumbado boca abajo.\n\n" +
+                    "Flexiona una pierna y coge el pie con la mano del mismo lado. Tira de ella todo lo que puedas sin que el" +
                     "muslo se despegue del suelo. Cambia de pierna.",
             "1 serie de 30 segundos por cada lado.",
             "https://www.marchasyrutas.es/blog/wp-content/uploads/2017/12/flexibilidad-bicicleta.jpg",
             "FLEXIBILIDAD"))
         sports.add(Sport("LUMBARES",
-            "Estira una pierna y encoge la otra cogiéndote de la rodilla y tirando de ella hacia el pecho. La pierna estirada no debe levantarse" +
-                    "del suelo. Cambia de pierna.",
+            "Estira una pierna y encoge la otra cogiéndote de la rodilla y tirando de ella hacia el pecho.\n\n" +
+            "La pierna estirada no debe levantarse del suelo. Cambia de pierna.",
             "1 serie de 30 segundos por cada lado.",
             "https://mundoentrenamiento.com/wp-content/uploads/2017/06/estiramiento-alivia-dolor-lumbar-888x500.jpg",
             "FLEXIBILIDAD"))
         sports.add(Sport("ABDUCTORES",
-            "Sentado en el suelo. Abre las piernas estiradas lo más que puedas e inclina el torso hacia delante, sin doblar las rodillas. Estira los brazos" +
-                    "e intenta bajar un poco más.",
+            "Sentado en el suelo.\n\n" +
+            "Abre las piernas estiradas lo más que puedas e inclina el torso hacia delante, sin doblar las rodillas. Estira los brazos \t" +
+            "e intenta bajar un poco más.",
             "1 serie de 30 segundos.",
             "https://t2.uc.ltmcdn.com/images/0/2/8/estiramiento_para_aumentar_la_flexibilidad_de_la_espalda_49820_10_600.jpg",
             "FLEXIBILIDAD"))

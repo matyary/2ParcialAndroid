@@ -115,7 +115,7 @@ class FragmentRegister : Fragment() {
 
                 db.collection("users").document(newUser.uid).set(newUser)
 
-                val action = FragmentRegisterDirections.actionFragmentRegisterToFragmentLogin()
+                val action = FragmentRegisterDirections.actionFragmentRegisterToFragmentSelect()
                 view_register.findNavController().navigate(action)
             }
             else{
