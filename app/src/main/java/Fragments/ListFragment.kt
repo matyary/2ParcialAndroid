@@ -169,8 +169,8 @@ class ListFragment : Fragment() {
             }
 
             R.id.action_signout -> {
-                val action_toolbar_signout = ListFragmentDirections.actionListFragmentToFragmentLogin(1)
-                view_sport.findNavController().navigate(action_toolbar_signout)
+                //val action_toolbar_signout = ListFragmentDirections.actionListFragmentToFragmentLogin(1)
+                //view_sport.findNavController().navigate(action_toolbar_signout)
             }
 
             R.id.action_settings -> {

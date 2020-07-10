@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.utn.tp3.MainActivity
 import com.utn.tp3.R
 
 
@@ -35,6 +36,22 @@ class FragmentLogin : Fragment() {
 
     companion object {
         private const val SIGN_IN_REQUEST_CODE = 91
+    }
+
+    class Navigate {
+        companion object {
+            const val toWelcomeScreen = 1
+            const val toDialogError = 2
+            const val toDialogIncomplete = 3
+            const val toRegisterScreen = 4
+        }
+    }
+
+    class Dialog {
+        companion object {
+            const val DATOS_ERRONEOS = 1
+            const val DATOS_INCOMPLETOS = 2
+        }
     }
 
     // Access a Cloud Firestore instance from your Fragment/Activity
@@ -56,10 +73,7 @@ class FragmentLogin : Fragment() {
     lateinit var email: String
     lateinit var uid: String
 
-    //auxiliares para navegar
-    private var flagNav: Int = 0
-
-    val args: FragmentLoginArgs by navArgs()
+    private var flagUserAuthOK: Int = 0
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -103,121 +117,116 @@ class FragmentLogin : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        if (args.signoutFlag==1){
-            val action_signout = FragmentLoginDirections.actionFragmentLoginToDialogFragmentSignout()
-            view_flogin.findNavController().navigate(action_signout)
-        }
-        else {
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        checkAuth(currentUser)
 
-            // Check if user is signed in (non-null) and update UI accordingly.
-            val currentUser = auth.currentUser
-            checkAuth(currentUser)
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    //Si ya existe un usuario con el uid de la autenticación...
+                    if (document.toObject(User::class.java).uid == auth.currentUser?.uid) {
+                        flagUserAuthOK = 1
+                        userEnter = document.toObject(User::class.java)
+                    }
+                    else flagUserAuthOK = 0
+                }
+            }
 
-            // Configure sign-in to request the user's ID, email address, and basic
-            // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 
-            // Build a GoogleSignInClient with the options specified by gso.
-            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+        // Build a GoogleSignInClient with the options specified by gso.
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
-            //Usuario y contraseña preguardados.
-            checkbox.isChecked = true
-            //Configuración Settings...
-            val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            val editor = pref.edit()
-            //Si hay preferencias de usuario guardadas, autocompletar editText...
-            if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
-                user_flogin.setText(pref.getString("Usuario", "default"))
-                pass_flogin.setText(pref.getString("Contraseña", "default"))
-            }
+        //Usuario y contraseña preguardados.
+        checkbox.isChecked = true
+        //Configuración Settings...
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor = pref.edit()
+        //Si hay preferencias de usuario guardadas, autocompletar editText...
+        if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
+            user_flogin.setText(pref.getString("Usuario", "default"))
+            pass_flogin.setText(pref.getString("Contraseña", "default"))
+        }
 
-            //OnClick de botón de inicio de sesión por Google.
-            signInButton.setOnClickListener {
-                if (auth.currentUser == null) {
-                    val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
-                    startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
+        //OnClick de botón de inicio de sesión por Google.
+        signInButton.setOnClickListener {
+            if (currentUser == null) {
+                val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+                startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
+            } else {
+                if (flagUserAuthOK == 1) {
+                    //Si los campos de nombre de usuario y contraseña están completos...
+                    if (user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
+                        //Si alguno de los usuarios ya instanciados en base de datos se corresponde con el
+                        //ingresado en los EditText...
+                        if (userEnter.getName() == user_flogin.text.toString() &&
+                            userEnter.getPass() == pass_flogin.text.toString()) {
+                            //Si está tildado el checkbox de recordar usuario y contraseña,
+                            //se guarda info de usuario en Settings.
+                            if (checkbox.isChecked) {
+                                Log.d("peso", userEnter.peso.toString())
+                                Log.d("altura", userEnter.altura.toString())
+                                Log.d("imc", userEnter.imc.toString())
+                                editor.putString("Usuario", user_flogin.text.toString())
+                                editor.putString("Contraseña", pass_flogin.text.toString())
+                                editor.putString("Peso", userEnter.peso.toString())
+                                editor.putString("Altura", userEnter.altura.toString())
+                                editor.putString("IMC", userEnter.imc.toString())
+                                editor.apply()
+                            }
+                            navigateTo(Navigate.toWelcomeScreen)
+                        }
+                        else {
+                            navigateTo(Navigate.toDialogError)
+                        }
+                    }
+                    else {
+                        navigateTo(Navigate.toDialogIncomplete)
+                    }
                 }
                 else {
-                    db.collection("users")
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            for (document in documents) {
-                                //Si ya existe un usuario con el uid de la autenticación...
-                                if (document.toObject(User::class.java).uid == auth.currentUser!!.uid) {
-                                    //Si los campos de nombre de usuario y contraseña están completos...
-                                    if (user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
-                                        //Si alguno de los usuarios ya instanciados en base de datos se corresponde con el
-                                        //ingresado en los EditText...
-                                        if (document.toObject(User::class.java).getName() == user_flogin.text.toString() &&
-                                            document.toObject(User::class.java).getPass() == pass_flogin.text.toString()) {
-                                            //Si está tildado el checkbox de recordar usuario y contraseña,
-                                            //se guarda info de usuario en Settings.
-                                            if (checkbox.isChecked) {
-                                                userEnter = document.toObject(User::class.java)
-                                                Log.d("peso", userEnter.peso.toString())
-                                                Log.d("altura", userEnter.altura.toString())
-                                                Log.d("imc", userEnter.imc.toString())
-                                                editor.putString("Usuario", user_flogin.text.toString())
-                                                editor.putString("Contraseña", pass_flogin.text.toString())
-                                                editor.putString("Peso", userEnter.peso.toString())
-                                                editor.putString("Altura", userEnter.altura.toString())
-                                                editor.putString("IMC", userEnter.imc.toString())
-                                                editor.apply()
-                                            }
-                                            //Inicio de sesión exitoso.
-                                            //Navega a pantalla de selección de actividad.
-                                            flagNav = 1
-                                            //val actionSelect = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
-                                            //view_flogin.findNavController().navigate(actionSelect)
-                                        }
-                                        else {
-                                            //Datos incorrectos, error inicio de sesión.
-                                            //Navega a dialog adecuado.
-                                            flagNav = 2
-                                            //val actionDialogFailed1 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(1)
-                                            //view_flogin.findNavController().navigate(actionDialogFailed1)
-                                        }
-                                    }
-                                    else {
-                                        //Campos incompletos, error inicio de sesión.
-                                        //Navega a dialog adecuado.
-                                        flagNav = 3
-                                        //val actionDialogFailed2 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(2)
-                                        //view_flogin.findNavController().navigate(actionDialogFailed2)
-                                    }
-                                }
-                                else {
-                                    //No existe objeto usuario con uid de autenticación.
-                                    //Navega a registro.
-                                    flagNav = 4
-                                    //val action = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
-                                    //view_flogin.findNavController().navigate(action)
-                                }
-                            }
-                        }
-                }
-                when (flagNav) {
-                    1 -> {
-                        val action1 = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
-                        view_flogin.findNavController().navigate(action1)
-                    }
-                    2 -> {
-                        val action2 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(1)
-                        view_flogin.findNavController().navigate(action2)
-                    }
-                    3 -> {
-                        val action3 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(2)
-                        view_flogin.findNavController().navigate(action3)
-                    }
-                    4 -> {
-                        val action4 = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
-                        view_flogin.findNavController().navigate(action4)
-                    }
+                    navigateTo(Navigate.toRegisterScreen)
                 }
             }
+        }
+    }
+
+    //Método de navegación.
+    fun navigateTo (direccion: Int){
+        when (direccion) {
+            Navigate.toWelcomeScreen -> {
+                if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
+                    val action1 = FragmentLoginDirections.actionFragmentLoginToFragmentSelect()
+                    view_flogin.findNavController().navigate(action1)
+                }
+            }
+            Navigate.toDialogError -> {
+                if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
+                    val action2 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(Dialog.DATOS_ERRONEOS)
+                    view_flogin.findNavController().navigate(action2)
+                }
+            }
+            Navigate.toDialogIncomplete -> {
+                if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
+                    val action3 = FragmentLoginDirections.actionFragmentLoginToDialogFragmentLoginFailed(Dialog.DATOS_INCOMPLETOS)
+                    view_flogin.findNavController().navigate(action3)
+                }
+            }
+            Navigate.toRegisterScreen -> {
+                if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
+                    val action4 =
+                        FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
+                    view_flogin.findNavController().navigate(action4)
+                }
+            }
+            else -> ""
         }
     }
 
@@ -225,7 +234,6 @@ class FragmentLogin : Fragment() {
     fun checkAuth (cuenta: FirebaseUser?) {
         if (cuenta == null) {
             //Mostrar botón de iniciar sesión con Google.
-            signInButton.isVisible = true
         }
         else {
             //Ocultar botón de iniciar sesión con Google.

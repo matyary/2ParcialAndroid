@@ -74,4 +74,12 @@ class User (uid : String?,
     fun getPass() : String{
         return (this.clave)
     }
+
+    fun setName(nombre: String) {
+        this.nombre = nombre
+    }
+
+    fun setPass(clave: String) {
+        this.clave = clave
+    }
 }
