@@ -22,8 +22,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.ktx.Firebase
 
 import com.utn.tp3.R
 
@@ -36,9 +38,6 @@ class ListFragment : Fragment() {
     var db = FirebaseFirestore.getInstance()
     private lateinit var adapter: FirestoreRecyclerAdapter<Sport, SportHolder>
     lateinit var query: Query
-
-    // Initialize Firebase Auth
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private var selectedSport : Sport? = null
 
@@ -169,8 +168,8 @@ class ListFragment : Fragment() {
             }
 
             R.id.action_signout -> {
-                //val action_toolbar_signout = ListFragmentDirections.actionListFragmentToFragmentLogin(1)
-                //view_sport.findNavController().navigate(action_toolbar_signout)
+                val action_toolbar_signout = ListFragmentDirections.actionListFragmentToDialogFragmentSignout()
+                view_sport.findNavController().navigate(action_toolbar_signout)
             }
 
             R.id.action_settings -> {

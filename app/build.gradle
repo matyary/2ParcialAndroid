@@ -129,7 +129,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:5.1.0'
 
     //Authentication con Google.
-    implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.google.firebase:firebase-auth-ktx:19.3.2'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
     //Storage Firebase.

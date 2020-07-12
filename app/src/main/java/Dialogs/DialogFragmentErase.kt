@@ -25,8 +25,6 @@ class DialogFragmentErase :  DialogFragment() {
     // Access a Cloud Firestore instance from your Fragment/Activity
     var db = FirebaseFirestore.getInstance()
 
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-
     val args: DialogFragmentEraseArgs by navArgs()
 
     override fun onCreateView(
@@ -56,7 +54,8 @@ class DialogFragmentErase :  DialogFragment() {
         }
 
         btnAccept.setOnClickListener {
-            auth.signOut()
+            db.collection("sports").document(args.sportToErase!!.nombre)
+                .delete()
             dismiss()
         }
     }

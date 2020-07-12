@@ -49,7 +49,7 @@ class DialogFragmentUploadPic :  DialogFragment() {
         Handler().postDelayed({
             //do something
             dismiss()
-        }, 10000)
+        }, 20000)
 
     }
 }

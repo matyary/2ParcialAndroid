@@ -24,7 +24,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.utn.tp3.MainActivity
 import com.utn.tp3.R
 
@@ -87,11 +89,13 @@ class FragmentLogin : Fragment() {
         signInButton.setSize(SignInButton.SIZE_STANDARD)
 
         // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
 
         user_flogin = view_flogin.findViewById(R.id.editText_user_flogin)
         pass_flogin = view_flogin.findViewById(R.id.editText_pass_flogin)
         checkbox = view_flogin.findViewById(R.id.checkBox)
+        //Usuario y contraseña preguardados por default.
+        checkbox.isChecked = true
 
         return view_flogin
     }
@@ -121,19 +125,6 @@ class FragmentLogin : Fragment() {
         val currentUser = auth.currentUser
         checkAuth(currentUser)
 
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    //Si ya existe un usuario con el uid de la autenticación...
-                    if (document.toObject(User::class.java).uid == auth.currentUser?.uid) {
-                        flagUserAuthOK = 1
-                        userEnter = document.toObject(User::class.java)
-                    }
-                    else flagUserAuthOK = 0
-                }
-            }
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -144,23 +135,13 @@ class FragmentLogin : Fragment() {
         // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
 
-        //Usuario y contraseña preguardados.
-        checkbox.isChecked = true
-        //Configuración Settings...
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val editor = pref.edit()
-        //Si hay preferencias de usuario guardadas, autocompletar editText...
-        if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
-            user_flogin.setText(pref.getString("Usuario", "default"))
-            pass_flogin.setText(pref.getString("Contraseña", "default"))
-        }
-
         //OnClick de botón de inicio de sesión por Google.
         signInButton.setOnClickListener {
             if (currentUser == null) {
-                val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+                val signInIntent: Intent = mGoogleSignInClient.signInIntent
                 startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
-            } else {
+            }
+            else {
                 if (flagUserAuthOK == 1) {
                     //Si los campos de nombre de usuario y contraseña están completos...
                     if (user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
@@ -174,6 +155,8 @@ class FragmentLogin : Fragment() {
                                 Log.d("peso", userEnter.peso.toString())
                                 Log.d("altura", userEnter.altura.toString())
                                 Log.d("imc", userEnter.imc.toString())
+                                val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                                val editor = pref.edit()
                                 editor.putString("Usuario", user_flogin.text.toString())
                                 editor.putString("Contraseña", pass_flogin.text.toString())
                                 editor.putString("Peso", userEnter.peso.toString())
@@ -233,11 +216,33 @@ class FragmentLogin : Fragment() {
     //Método para actualizar
     fun checkAuth (cuenta: FirebaseUser?) {
         if (cuenta == null) {
-            //Mostrar botón de iniciar sesión con Google.
+            flagUserAuthOK = 0
+            user_flogin.setText("")
+            pass_flogin.setText("")
         }
         else {
-            //Ocultar botón de iniciar sesión con Google.
-            //signInButton.isVisible = false
+            //Configuración Settings...
+            val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            //Si hay preferencias de usuario guardadas, autocompletar editText...
+            if (flagUserAuthOK == 1 && pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
+                user_flogin.setText(pref.getString("Usuario", "default"))
+                pass_flogin.setText(pref.getString("Contraseña", "default"))
+            }
+
+            //Checkeo si ya existe objeto usuario para tal autenticación...
+            db.collection("users")
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        //Si ya existe un usuario con el uid de la autenticación...
+                        if (document.toObject(User::class.java).uid == cuenta.uid) {
+                            flagUserAuthOK = 1
+                            userEnter = document.toObject(User::class.java)
+                        }
+                    }
+                }
+
+            //Almaceno datos de interés de la cuenta de Google.
             cuenta.let {
                 // Name, email address, and profile photo Url
                 name = cuenta.displayName!!
@@ -262,6 +267,7 @@ class FragmentLogin : Fragment() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     checkAuth(user)
+                    return@addOnCompleteListener onStart()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

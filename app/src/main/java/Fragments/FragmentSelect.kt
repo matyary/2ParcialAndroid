@@ -32,6 +32,8 @@ class FragmentSelect : Fragment() {
 
     private lateinit var viewModel: FragmentSelectViewModel
 
+    private var flagEmptyDatabase: Int = 0
+
     // Access a Cloud Firestore instance from your Fragment/Activity
     var db = FirebaseFirestore.getInstance()
 
@@ -63,8 +65,23 @@ class FragmentSelect : Fragment() {
 
         viewModel.sportList()
 
-        for (sport in viewModel.sports) {
-            db.collection("sports").document(sport.nombre).set(sport)
+        //Verificación: base de datos vacía???
+        db.collection("sports")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.toObject(Sport::class.java).nombre == "") {
+                        flagEmptyDatabase = 1
+                    }
+                    else flagEmptyDatabase = 0
+                }
+            }
+
+        //Si la base de datos está vacía, le carga la lista proveniente del viewmodel.
+        if (flagEmptyDatabase == 1) {
+            for (sport in viewModel.sports) {
+                db.collection("sports").document(sport.nombre).set(sport)
+            }
         }
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())

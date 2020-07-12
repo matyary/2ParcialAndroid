@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.navArgs
 import com.github.nikartm.button.FitButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.utn.tp3.R
+import kotlin.system.exitProcess
 
 class DialogFragmentSignout :  DialogFragment() {
 
@@ -23,7 +27,7 @@ class DialogFragmentSignout :  DialogFragment() {
     lateinit var btnCancel: FitButton
 
     // Initialize Firebase Auth
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var auth: FirebaseAuth = Firebase.auth
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +56,11 @@ class DialogFragmentSignout :  DialogFragment() {
         }
 
         btnAccept.setOnClickListener {
-            auth.signOut()
-            dismiss()
+            Firebase.auth.signOut()
+            Handler().postDelayed({
+                //do something
+                exitProcess(0)
+            }, 5000)
         }
     }
 }
