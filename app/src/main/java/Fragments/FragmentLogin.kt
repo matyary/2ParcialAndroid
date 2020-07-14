@@ -4,6 +4,7 @@ import Entities.User
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.utn.tp3.MainActivity
 import com.utn.tp3.R
+import kotlin.system.exitProcess
 
 
 /**
@@ -67,7 +69,7 @@ class FragmentLogin : Fragment() {
     lateinit var signInButton: SignInButton
     private lateinit var auth: FirebaseAuth
 
-    lateinit var userEnter: User
+    private var userEnter: User? = null
 
     //Objeto usuario y sus campos a registrar...
     lateinit var registerUser: User
@@ -122,13 +124,13 @@ class FragmentLogin : Fragment() {
         super.onStart()
 
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        checkAuth(currentUser)
+        checkAuth(auth.currentUser)
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
+                .requestId()
                 .requestEmail()
                 .build()
 
@@ -137,52 +139,58 @@ class FragmentLogin : Fragment() {
 
         //OnClick de botón de inicio de sesión por Google.
         signInButton.setOnClickListener {
-            if (currentUser == null) {
-                val signInIntent: Intent = mGoogleSignInClient.signInIntent
+            if (auth.currentUser == null) {
+                mGoogleSignInClient.signOut()
+                val signInIntent = mGoogleSignInClient.signInIntent
                 startActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE)
             }
             else {
-                if (flagUserAuthOK == 1) {
-                    //Si los campos de nombre de usuario y contraseña están completos...
-                    if (user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
-                        //Si alguno de los usuarios ya instanciados en base de datos se corresponde con el
-                        //ingresado en los EditText...
-                        if (userEnter.getName() == user_flogin.text.toString() &&
-                            userEnter.getPass() == pass_flogin.text.toString()) {
-                            //Si está tildado el checkbox de recordar usuario y contraseña,
-                            //se guarda info de usuario en Settings.
-                            if (checkbox.isChecked) {
-                                Log.d("peso", userEnter.peso.toString())
-                                Log.d("altura", userEnter.altura.toString())
-                                Log.d("imc", userEnter.imc.toString())
-                                val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-                                val editor = pref.edit()
-                                editor.putString("Usuario", user_flogin.text.toString())
-                                editor.putString("Contraseña", pass_flogin.text.toString())
-                                editor.putString("Peso", userEnter.peso.toString())
-                                editor.putString("Altura", userEnter.altura.toString())
-                                editor.putString("IMC", userEnter.imc.toString())
-                                editor.apply()
-                            }
-                            navigateTo(Navigate.toWelcomeScreen)
-                        }
-                        else {
-                            navigateTo(Navigate.toDialogError)
-                        }
-                    }
-                    else {
-                        navigateTo(Navigate.toDialogIncomplete)
-                    }
-                }
-                else {
-                    navigateTo(Navigate.toRegisterScreen)
-                }
+                navigateWhere()
             }
         }
     }
 
+    //Método para conocer destino de navegación.
+    private fun navigateWhere (){
+        if (flagUserAuthOK == 1) {
+            //Si los campos de nombre de usuario y contraseña están completos...
+            if (user_flogin.text.toString() != "" && pass_flogin.text.toString() != "") {
+                //Si alguno de los usuarios ya instanciados en base de datos se corresponde con el
+                //ingresado en los EditText...
+                if (userEnter?.getName() == user_flogin.text.toString() &&
+                    userEnter?.getPass() == pass_flogin.text.toString()) {
+                    //Si está tildado el checkbox de recordar usuario y contraseña,
+                    //se guarda info de usuario en Settings.
+                    if (checkbox.isChecked) {
+                        Log.d("peso", userEnter?.peso.toString())
+                        Log.d("altura", userEnter?.altura.toString())
+                        Log.d("imc", userEnter?.imc.toString())
+                        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        val editor = pref.edit()
+                        editor.putString("Usuario", user_flogin.text.toString())
+                        editor.putString("Contraseña", pass_flogin.text.toString())
+                        editor.putString("Peso", userEnter?.peso.toString())
+                        editor.putString("Altura", userEnter?.altura.toString())
+                        editor.putString("IMC", userEnter?.imc.toString())
+                        editor.apply()
+                    }
+                    navigateTo(Navigate.toWelcomeScreen)
+                }
+                else {
+                    navigateTo(Navigate.toDialogError)
+                }
+            }
+            else {
+                navigateTo(Navigate.toDialogIncomplete)
+            }
+        }
+        else {
+            navigateTo(Navigate.toRegisterScreen)
+        }
+    }
+
     //Método de navegación.
-    fun navigateTo (direccion: Int){
+    private fun navigateTo (direccion: Int){
         when (direccion) {
             Navigate.toWelcomeScreen -> {
                 if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
@@ -204,8 +212,7 @@ class FragmentLogin : Fragment() {
             }
             Navigate.toRegisterScreen -> {
                 if (view_flogin.findNavController().currentDestination?.id == R.id.fragmentLogin) {
-                    val action4 =
-                        FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
+                    val action4 = FragmentLoginDirections.actionFragmentLoginToFragmentRegister(registerUser)
                     view_flogin.findNavController().navigate(action4)
                 }
             }
@@ -213,22 +220,14 @@ class FragmentLogin : Fragment() {
         }
     }
 
-    //Método para actualizar
-    fun checkAuth (cuenta: FirebaseUser?) {
+    //Método para checkear autenticación con Google.
+    private fun checkAuth (cuenta: FirebaseUser?) {
         if (cuenta == null) {
             flagUserAuthOK = 0
             user_flogin.setText("")
             pass_flogin.setText("")
         }
         else {
-            //Configuración Settings...
-            val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            //Si hay preferencias de usuario guardadas, autocompletar editText...
-            if (flagUserAuthOK == 1 && pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
-                user_flogin.setText(pref.getString("Usuario", "default"))
-                pass_flogin.setText(pref.getString("Contraseña", "default"))
-            }
-
             //Checkeo si ya existe objeto usuario para tal autenticación...
             db.collection("users")
                 .get()
@@ -237,10 +236,19 @@ class FragmentLogin : Fragment() {
                         //Si ya existe un usuario con el uid de la autenticación...
                         if (document.toObject(User::class.java).uid == cuenta.uid) {
                             flagUserAuthOK = 1
+                            //Configuración Settings...
+                            val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            //Si hay preferencias de usuario guardadas, autocompletar editText...
+                            if (pref.getString("Usuario", "default") != "default" && pref.getString("Contraseña", "default") != "default") {
+                                user_flogin.setText(pref.getString("Usuario", "default"))
+                                pass_flogin.setText(pref.getString("Contraseña", "default"))
+                            }
                             userEnter = document.toObject(User::class.java)
                         }
                     }
                 }
+
+            if (userEnter == null) flagUserAuthOK = 0
 
             //Almaceno datos de interés de la cuenta de Google.
             cuenta.let {
@@ -267,7 +275,10 @@ class FragmentLogin : Fragment() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     checkAuth(user)
-                    return@addOnCompleteListener onStart()
+                    Handler().postDelayed({
+                        //do something
+                        navigateWhere()
+                    }, 2000)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
