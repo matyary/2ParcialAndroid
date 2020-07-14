@@ -60,7 +60,7 @@ class DialogFragmentSignout :  DialogFragment() {
             Handler().postDelayed({
                 //do something
                 exitProcess(0)
-            }, 5000)
+            }, 1000)
         }
     }
 }

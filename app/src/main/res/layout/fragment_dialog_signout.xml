@@ -86,7 +86,7 @@
             android:id="@+id/dialog_text"
             android:layout_width="284dp"
             android:layout_height="45dp"
-            android:text="¿Está seguro que desea cerrar sesión?"
+            android:text="¿Está seguro que desea cerrar sesión y salir de Sport App?"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline36"
             app:layout_constraintEnd_toStartOf="@+id/guideline38"
